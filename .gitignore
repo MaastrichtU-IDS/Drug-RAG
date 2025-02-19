@@ -1,0 +1,10 @@
+.d2sconfig
+workspace/
+
+**/.ipynb_checkpoints
+
+output/
+input/
+
+.DS_Store
+

@@ -1,0 +1,40 @@
+
+input_dir:
+  class: Directory
+  path: /data/d2s-workspace/input/drugbank
+
+sparql_final_graph_uri: https://w3id.org/trek/graph/drugbank
+
+# download-username: vincent.emonet@maastrichtuniversity.nl
+# download-password: maasitest12
+
+# tmp RDF4J server SPARQL endpoint to load generic RDF
+# TODO: run a virtuoso on node2
+# sparql_tmp_triplestore_url: "http://node000002.cluster.ids.unimaas.nl:8890/sparql"
+sparql_tmp_triplestore_url: "http://d2s-virtuoso.137.120.31.101.nip.io/sparql"
+virtuoso_container_id: "d2scwlworkflows_virtuoso_1"
+# sparql_tmp_service_url: "http://node000002.cluster.ids.unimaas.nl:8890/sparql"
+sparql_tmp_service_url: "http://d2s-virtuoso.137.120.31.101.nip.io/sparql"
+sparql_tmp_triplestore_username: dba
+sparql_tmp_triplestore_password: dba
+
+sparql_tmp_graph_uri: "https://w3id.org/d2s/graph/xml2rdf"
+
+
+# Final RDF4J server SPARQL endpoint to load the BioLink RDF
+sparql_final_triplestore_url: "https://graphdb.dumontierlab.com/repositories/test-vincent/statements"
+sparql_final_triplestore_username: import_user
+sparql_final_triplestore_password: test
+
+sparql_transform_queries_path: "mapping"
+sparql_insert_metadata_path: "metadata"
+
+cwl_workflow_filename: xml-virtuoso.cwl
+
+config_dir:
+  class: Directory
+  path: .
+
+cwl_dir:
+  class: Directory
+  path: ../../d2s-core/cwl
