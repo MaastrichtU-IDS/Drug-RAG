@@ -1,52 +1,22 @@
-## Define CWL workflows for RDF conversion
+# Drug Efficacy Justification Using Retrieval-Augmented Generation (RAG)
 
-Click on the **Use this template** button to **create a new repository used by the [d2s Command Line Interface](https://pypi.org/project/d2s/) tool**. 
+## Overview  
+This repository contains the implementation of a **Retrieval-Augmented Generation (RAG) pipeline** designed to provide scientifically grounded justifications for drug efficacy claims. By leveraging **Large Language Models (LLMs)** and integrating verified biomedical data sources such as **PubMed** and **DrugBank**, this project aims to enhance the reliability of AI-driven justifications in biomedical research.  
 
-See **[d2s.semanticscience.org](https://d2s.semanticscience.org/)** for detailed documentation to run CWL workflows to transform structured data to a target RDF knowledge graph and deploy services.
+## Features  
+- **RAG-based Justification**: Retrieves task-specific, verified information to support drug-disease relationships.  
+- **Multiple LLM Testing**: Evaluates different LLMs with various RAG techniques to determine the optimal model.  
+- **Expert-Guided Evaluation**: Utilizes expert-curated ground truth for performance assessment.  
+- **Role-Play Reasoning**: Employs scenario-based reasoning to enhance the logical consistency of generated justifications.  
 
-## Requirements
+## Installation  
 
-* [Docker](https://docs.docker.com/install/): see the [d2s Docker installation documentation](https://d2s.semanticscience.org/docs/d2s-installation#install-docker) for quick install on various systems.
+### Prerequisites  
+- Python 3.8+  
+- CUDA-enabled GPU (optional but recommended)  
+- Dependencies listed in `requirements.txt`  
 
-- `pip` install the [d2s client](https://pypi.org/project/d2s/) and [cwlref-runner](https://github.com/common-workflow-language/cwltool#install) (run workflows of Docker containers) withon Python 3.6+
-
-  ```bash
-  sudo apt install d2s cwlref-runner
-  ```
-
-## Create  a project
-
-Follow the prompt instructions to create a project in the provided folder:
-
+### Clone the Repository  
 ```bash
-d2s init project-folder-name
-```
-
-> See the [d2s.semanticscience.org](https://d2s.semanticscience.org/docs/d2s-services) for the complete documentation.
-
-## Edit this template
-
-You might want to edit or modify this template: 
-
-```bash
-git clone --recursive https://github.com/MaastrichtU-IDS/d2s-project-template.git
-```
-
-## Update submodules
-
-You might want to update the `d2s-core` submodule to get the latest updates for the docker deployments definitions:
-
-```shell
-./update_submodules.sh
-```
-
-## About
-
-We use the [Common Workflow Language](https://www.commonwl.org/) to describe workflows to transform heterogeneous structured data (CSV, TSV, RDB, XML, JSON) to a target RDF data model ([BioLink](https://biolink.github.io/biolink-model/docs/) in those examples). 
-
-The user can transform the input data as RDF using various solutions:
-
-* RML mappings
-* CWL workflows executing [SPARQL queries](https://github.com/MaastrichtU-IDS/d2s-project-template/blob/master/datasets/cohd/mapping/1-concepts.rq) to transform the generic RDF generated depending on the input data structure ([AutoR2RML](https://github.com/MaastrichtU-IDS/AutoR2RML), [xml2rdf](https://github.com/MaastrichtU-IDS/xml2rdf)) to the target model of his choice. See [documentation to run CWL workflows](https://d2s.semanticscience.org/docs/d2s-run)
-* [BioThings Studio](https://d2s.semanticscience.org/docs/d2s-biothings) (web UI and API)
-* DOCKET multiomics provider (Python notebooks and Nextflow)
+git clone https://github.com/your-username/your-repository.git
+cd your-repository

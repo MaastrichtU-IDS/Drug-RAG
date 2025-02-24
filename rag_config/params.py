@@ -1,0 +1,10 @@
+CACHE_DIR = '/app/workspace/resources/models'	
+FAISS_PATH ="/app/workspace/drug_rag_student/abstract_db_revised.faiss"
+DATA_DIR = "/app/workspace/data"
+PUBMED_PATH = "/app/dataset_with_abstracts.csv"
+LOG_FILE = "/app/workspace/resources/logs/pubmed_processing.log"
+VECTOR_PATH = "yaru.qdrant.137.120.31.148.nip.io"
+QDRANT_PORT = 443
+MODEL_ID = "ncbi/MedCPT-Query-Encoder"
+LLM_ID = 'llama'
+COLLECTION_NAME = 'drug_discovery'
