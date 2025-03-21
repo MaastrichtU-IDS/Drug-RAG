@@ -15,7 +15,7 @@ def load_docs(csv_file='data.csv', **kwargs):
     df = pd.read_csv(csv_file, **kwargs)
     #create a list of Document objects from the dataframe
     docs = []
-    #iterate over the rows of the dataframe to 
+    #iterate over the rows of the dataframe and create a Document object for each row
     for i, row in df.iterrows():
         doc = Document(
             id = str(uuid4()),
@@ -35,10 +35,16 @@ def load_docs(csv_file='data.csv', **kwargs):
 def load_queries(csv_file='/app/workspace/data/input/eval_datasets/cvd_drug_claims_test.csv'):
     """
     Load queries from a text file.
+    parameters:
+        csv_file(str): path to the CSV file
+    returns:
+        queries(list): list of tuples (question, answer, explanation
     """
     queries = []
+    # Load the CSV file, use sep=',' to specify the delimiter
     df = pd.read_csv(csv_file, sep=',',index_col=False)
     # print(df.head())
+    #iterate over the rows of the dataframe and create a tuple for each row with the question, answer and explanation
     for _, row in df.iterrows():
         queries.append((str(row['Question']).lower(), str(row['Answer']).lower(), str(row['Explanation']).lower()))
     return queries

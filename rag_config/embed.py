@@ -21,6 +21,7 @@ class BioLMTextEmbedding(Embeddings):
             device (str, optional): The device to run the model on ("cuda" or "cpu"). 
                                     Defaults to automatically choosing CUDA if available.
         """
+        
         self.device = device if device else "cuda:0" if torch.cuda.is_available() else "cpu"
         print(self.device)
         self.tokenizer = AutoTokenizer.from_pretrained(model_id, clean_up_tokenization_spaces=True, truncation=True, padding=True)   
