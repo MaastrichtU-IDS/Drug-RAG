@@ -1,36 +1,67 @@
+"""
+Drug Discovery RAG Pipeline Runner
+
+This script implements the main execution pipeline for drug efficacy evaluation using
+Retrieval-Augmented Generation (RAG). It coordinates the retrieval of medical literature,
+LLM-based analysis, and evaluation of drug efficacy claims.
+
+Key Components:
+- Dual retrieval system (Dense + PubMed)
+- LLM-based claim verification
+- Evaluation metrics collection
+"""
+
+# Import libraries
 from indexing import *
 from llm_ import load_llm, ask_llm
 from data_loader import load_queries
-#from langchain_core.documents.base import Document
 from langchain.schema import Document
-
-# import random
 from params import MODEL_ID, LLM_ID
 import json
 from eval import *
 import argparse
+
 def pretty_print(contexts):
+   """
+   Utility function to print context documents in a readable format
+   Parameters:
+            contexts (list): list of context documents
+   """
    for context in contexts:
        print(f"------{context.page_content}----")
+
 #run main function
 if __name__ == "__main__":
-
+"""
+    Parses command-line arguments for configuration including data paths, 
+    model identifiers (for embedding and LLM), collection name, and flags 
+    to indicate whether the database should be recreated. Then loads queries 
+    to be used later in the pipeline.
+"""
     parser = argparse.ArgumentParser(description='Run Drug Discovery RAG')
+    # Path to input data (abstracts.csv by default)
     parser.add_argument('--data_path',type=str, help='Path to the data directory', default='/app/workspace/data/output/abstracts.csv')
+    #Flag to indicate if database recreation is needed
     parser.add_argument('--recreate', action='store_true', help='Recreate the database')
+    # Model and LLM identifiers
     parser.add_argument('--model_id', type=str, default=MODEL_ID, help='Embedding model id')
+
     parser.add_argument('--llm_id', type=str, default=LLM_ID, help='LLM model id')
-
+    # Name of the Chroma or vector collection for embeddings storage
     parser.add_argument('--collection_name', type=str, default='pubmed_drugs_medcpt', help='LLM model id')  # pubmed_drugs_medcpt for medcpt embedding model
-
+    # processes the arguments you pass via command-line when executing Python script.
     args = parser.parse_args()
+    # Load queries to run the retrieval-augmented generation process
     queries =load_queries()
     print(f"total queries: {len(queries)}")
     # random.shuffle(queries)
+
+    # Initialize retrieval system
     retrirvers = create_index(csv_file=args.data_path,recreate=args.recreate, model_id=args.model_id, collection_name=args.collection_name)
     dense_retrirver = retrirvers[0]
-    
     pubmed_retriever = retrirvers[1]
+
+    # Load LLM model
     llm_id = args.llm_id if args.llm_id else LLM_ID
     model = load_llm(model=llm_id)
     all_responses = {}

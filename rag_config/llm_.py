@@ -10,11 +10,21 @@ from dotenv import load_dotenv
 
 
 def load_llm(model='llama'):
+    """
+    Load the LLM model
+    parameters: 
+        model(str): model name
+    returns
+        active_model: ChatOpenAI or ChatGroq or ChatOllama
+    """
+    # Load the LLM model
     load_dotenv()
+    # Load the environment variables
     open_ai_key = os.getenv("OPENAI_API_KEY")
     org_id = os.getenv("OPENAI_ORG_ID")
     groq_api = os.getenv("GROQ_API_KEY")
     print(f"Groq Key: {groq_api}")
+
     if model == 'llama':
         active_model = ChatOllama(
                     base_url="http://ollama:11434",  # Ollama server endpoint
@@ -74,7 +84,7 @@ def load_llm(model='llama'):
     return active_model
 
 
-
+#base prompt for asking the LLM
 BASE_PROMPT_0="""Read the following abstracts from PubMed:{context} 
                 Given your INTERNAL CLINICAL AND MEDICALDOMAIN KNOWLEDGE and provided abstracts, is the following claim true or false? 
                 Claim: {question}
@@ -83,6 +93,15 @@ BASE_PROMPT_0="""Read the following abstracts from PubMed:{context}
                 Explain your answer by providing evidence from the context that supports your reasoning.
                 """
 def ask_llm(question,context, model='llama'):
+    """
+    setting up the prompt for the LLM
+    parameters:
+        question(str ): the question to ask the LLM
+        context(str): the context to provide to the LLM
+        model(str): the model to use
+    returns
+        result(str): the response from the LLM
+    """
     try:
 
         BASE_PROMPT=f"""You are a very smart physician specialízing in drugs and their efficacy and indications, when prompted with a drug fact you will check and justify the truth value of the fact using context given to you combined with your immense knowledge that the stated information is merely a factual assertion.
@@ -98,15 +117,22 @@ def ask_llm(question,context, model='llama'):
         Q: Copy and paste the initial problem here.
         A: Explain the solution for each separate category as listed above using the context given and if needed your internal knowledge base then enclose the ultimate answer in Fact) here. In the end, one sentence to summarize your justification outcome and state the truth value for the tact here YOU MUST GIVE A TRUTH VALUE FOR THE STATED FACT{question} using the evidence to reason the truth of the supposed fact.
         """
+        #give the initial system prompt
         system = "You are a helpful assistant expert in medical domain"
+        #create the template that comnbines the system and the base prompt
         template = ChatPromptTemplate.from_messages([("system", system), ("human", BASE_PROMPT)], template_format='mustache')
         # print(template.format_messages())   
-        chain = template | model     
+        # create a chain of operations: combine a prompt template with a language model
+        chain = template | model  
+        # save the result of the chain
         result = chain.invoke({"question": question,"context":context})
+        #execute the chain with question(claims) and context, The response is stored in result 
         print(f"type of result: {type(result)}")
+         # keep the actual text response only
         result =  result.content
         print(result)
         return result
     except Exception as e:
         print(f"Error in asking llm: {e}")
         raise e
+    

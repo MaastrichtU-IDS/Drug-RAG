@@ -4,9 +4,18 @@ from uuid import uuid4
 def load_docs(csv_file='data.csv', **kwargs):
     """
     Load documents from a CSV file.
+    parameters:
+        csv_file(str): path to the CSV file
+        kwargs: additional keyword arguments for pandas.read_csv
+    returns:
+        docs(list): list of Document
+
     """
+    # Load the CSV file, pass additional keyword arguments to pandas.read_csv BY using **kwargs
     df = pd.read_csv(csv_file, **kwargs)
+    #create a list of Document objects from the dataframe
     docs = []
+    #iterate over the rows of the dataframe to 
     for i, row in df.iterrows():
         doc = Document(
             id = str(uuid4()),
